@@ -1,7 +1,36 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 pd.__version__
-%pwd
+
+# read in the data
 dispatchTable = pd.read_csv("Dispatch.csv")
+
+# reverse row order so that index is ascending with data
 dispatchTable[::-1]
-dispatchTable
+dispatchTable = dispatchTable.reset_index()
+
+
+# Boston Fire Dept scatter by date
+dispatchTable.plot(kind='scatter',x='index' ,y='BFD',color='red')
+plt.savefig('fig1.png')
+
+# Boston Police Dept scatter by date
+dispatchTable.plot(kind='scatter',x='index' ,y='BPD',color='blue')
+plt.savefig('fig2.png')
+
+# Emergency Medical Services by date
+dispatchTable.plot(kind='scatter',x='index' ,y='EMS',color='green')
+plt.savefig('fig3.png')
+
+# graph showing the flow of total Dispatches for each month, shown over the last four years
+dispatchTable.groupby(['Month','Year']).size().unstack().plot(kind='bar',stacked=True)
+#dispatchTable
+plt.savefig('fig4.png')
+
+# graph of Dispatchers for each month, without consideration for year
+dispatchTable.groupby(['Month','Total']).size().unstack().plot(kind='bar',stacked=False)
+#dispatchTable
+plt.savegif('fig5.png')
+#dispatchTable.plot(kind='scatter',x='index' ,y='BPD',color='blue')
+
