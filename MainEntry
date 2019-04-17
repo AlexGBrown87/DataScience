@@ -3,34 +3,56 @@ import pandas as pd
 import matplotlib.pyplot as plt
 pd.__version__
 
-# read in the data
+
 dispatchTable = pd.read_csv("Dispatch.csv")
-
-# reverse row order so that index is ascending with data
 dispatchTable[::-1]
+#dispatchTable
 dispatchTable = dispatchTable.reset_index()
-
-
-# Boston Fire Dept scatter by date
+#dispatchTable
 dispatchTable.plot(kind='scatter',x='index' ,y='BFD',color='red')
 plt.savefig('fig1.png')
 
-# Boston Police Dept scatter by date
 dispatchTable.plot(kind='scatter',x='index' ,y='BPD',color='blue')
 plt.savefig('fig2.png')
 
-# Emergency Medical Services by date
 dispatchTable.plot(kind='scatter',x='index' ,y='EMS',color='green')
 plt.savefig('fig3.png')
 
-# graph showing the flow of total Dispatches for each month, shown over the last four years
-dispatchTable.groupby(['Month','Year']).size().unstack().plot(kind='bar',stacked=True)
+# graph showing the flow of total Dispatches for each month, shown over the last four years Unstacked!
+dispatchTable.groupby(['Month','Year']).size().unstack().plot(kind='bar',stacked=False)
 #dispatchTable
 plt.savefig('fig4.png')
 
-# graph of Dispatchers for each month, without consideration for year
-dispatchTable.groupby(['Month','Total']).size().unstack().plot(kind='bar',stacked=False)
+# graph showing the flow of total dispatches for each month, shown over the last four years Stacked!
+dispatchTable.groupby(['Month','Year']).size().unstack().plot(kind='bar',stacked=True)
 #dispatchTable
-plt.savegif('fig5.png')
+plt.savefig('fig5.png')
+
+# graph of Dispatchers for each month, without consideration for year
+dispatchTable.groupby(['Year','Month']).size().unstack().plot(kind='bar',stacked=False)
+plt.savefig('fig6.png')
 #dispatchTable.plot(kind='scatter',x='index' ,y='BPD',color='blue')
+
+a = dispatchTable[dispatchTable['Year'] != 2014]
+a = a[a['Year'] != 2010]
+
+a.groupby(['Year','Month']).size().unstack().plot(kind='bar',stacked=False)
+plt.savefig('fig7.png')
+#dispatchTable.plot(kind='scatter',x='index' ,y='BPD',color='blue')
+
+a = dispatchTable['Year']
+b = dispatchTable['EMS']
+c = dispatchTable['BPD']
+d = dispatchTable['BFD']
+# Create plots with Dispatchers as labels
+fig, ax = plt.subplots()
+ax.plot(a, b, 'k--', label='EMS')
+ax.plot(a, c, 'k:', label='BPD')
+ax.plot(a, d, 'k', label='BFD')
+legend = ax.legend(loc='upper center', shadow=True, fontsize='large')
+
+# Put a nicer background color on the legend.
+legend.get_frame().set_facecolor('C0')
+plt.savefig('fig8.png')
+plt.show()
 
