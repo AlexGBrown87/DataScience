@@ -56,3 +56,26 @@ legend.get_frame().set_facecolor('C0')
 plt.savefig('fig8.png')
 plt.show()
 
+
+# fun graph of how we seem to fall apart in cold months
+with plt.xkcd():
+    # Based on "Stove Ownership" from XKCD by Randall Munroe
+    # http://xkcd.com/418/
+    # Credits to Randall Munroe for original idea and code
+    fig = plt.figure()
+    ax = fig.add_axes((0.1, 0.2, 0.8, 0.7))
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    plt.xticks([])
+    plt.yticks([])
+    ax.set_ylim([-30, 10])
+
+    data = np.ones(100)
+    data[70:] -= np.arange(30)
+
+    plt.annotate('cold', xy=(70, 1), arrowprops=dict(arrowstyle='->'), xytext=(15, -10))
+    plt.plot(data)
+    plt.xlabel('time')
+    plt.ylabel('lol safety level')
+    fig.text(0.5, 0.05, 'Boston', ha='center')
+    plt.savefig('fig9.png')
